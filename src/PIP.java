@@ -77,15 +77,8 @@ public class PIP {
 
                 for (int x = 0; x < stack.size(); x++){
 
-                    if (stack.peek() == '('){
-
-                        stack.pop();
-
-                    } else {
-
                         output = output + stack.pop();
 
-                    }
 
                 }
 
@@ -94,6 +87,12 @@ public class PIP {
         }
 
         while (!stack.isEmpty()){
+
+            if (stack.peek() == '('){
+
+                stack.pop();
+
+            }
 
             output = output + stack.pop();
 
