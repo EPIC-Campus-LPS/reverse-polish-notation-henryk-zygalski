@@ -30,10 +30,10 @@ public class PIP {
             }
 
             //equivalent to running until finds an operator
-            else if (read != '(') {
+            else if (read != ')') {
 
                 //pushes whatever read if stack is empty
-                if (stack.isEmpty()) {
+                if (stack.isEmpty() || read == '(') {
 
                     stack.push(read);
 
@@ -61,21 +61,39 @@ public class PIP {
                 //runs when the operator is + or -
                 else {
 
+                    for (int m = 0; m <= stack.size(); m++){
 
+                        output = output + stack.pop();
+
+                    }
+
+                    stack.push(read);
 
                 }
 
             }
-            //runs only when an open parenthesis is found
+            //runs only when an open or closed parenthesis is found
             else {
 
-                continue;
+                for (int x = 0; x < stack.size(); x++){
+
+                    if (stack.peek() == '('){
+
+                        stack.pop();
+
+                    } else {
+
+                        output = output + stack.pop();
+
+                    }
+
+                }
 
             }
 
         }
 
-        for (int s = 0; s <= stack.size(); s++){
+        while (!stack.isEmpty()){
 
             output = output + stack.pop();
 
