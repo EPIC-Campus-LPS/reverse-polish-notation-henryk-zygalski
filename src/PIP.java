@@ -24,7 +24,7 @@ public class PIP {
 
                 int answer = stack.pop() + stack.pop();
                 stack.push(answer);
-                Syst
+                a
 
             }
         }
