@@ -1,140 +1,123 @@
 import java.util.Stack;
 
+
 public class PIP {
 
-    /*
-    static String evaluatePostfix (String input){
 
-    }
-     */
+//    static String evaluatePostfix (String input){
+
+
+//    }
+
+
+
 
     static String infixToPostfix(String input) {
+
 
         //extracts the input as a string
         String string = input;
 
+
         //defines the output & stack
         String output = "";
         Stack<Character> stack = new Stack<>();
-
+        //repeats from the string length
         for (int i = 0; i < string.length(); i++) {
+
 
             //reads every character of the string
             char read = string.charAt(i);
 
+
             //adds every letter to the output as it goes along
             if (Character.isLetter(read)) {
 
+
                 output = output + read;
 
-                //reads whether it is a + or a -
-            } else if (read == '+' || read == '-') {
 
-                //checks if the stack is empty
-                if (stack.size() == 0) {
-                    System.out.println("added" + read);
+            }
+
+
+            //equivalent to running until finds an operator
+            else if (read != ')') {
+
+
+                //pushes whatever read if stack is empty
+                if (stack.isEmpty() || read == '(') {
+
+
                     stack.push(read);
 
-                    //checks if the top of the stack is a + or -
-                } else if (stack.peek() == '+' || stack.peek() == '-') {
 
-                    output = output + stack.pop();
-                    stack.push(read);
-
-                    //pushes what's read if its not a + or -
-                } else {
-                    stack.push(read);
                 }
 
-                //reads whether it is a * or /
-            } else if (read == '*' || read == '/') {
 
-                //checks if the stack is empty
-                if (stack.size() == 0) {
-                    System.out.println("added" + read);
-                    stack.push(read);
+                //runs when the operator is * or /
+                else if (read == '*' || read == '/') {
 
-                    //checks if the top of the stack is a + or -
-                } else if (stack.peek() == '+' || stack.peek() == '-') {
 
-                    System.out.println("added" + read);
-                    stack.push(read);
-
-                    //pops the current stack peek and adds what's read
-                } else {
-                    output = output + stack.pop();
-                    stack.push(read);
-                }
-
-            } else if (read == '(') {
-
-                stack.push(read);
-
-                while (read != ')') {
-                    if (Character.isLetter(read)) {
-
-                        output = output + read;
-
-                        //reads whether it is a + or a -
-                    } else if (read == '+' || read == '-') {
-
-                        //checks if the stack is empty
-                        if (stack.size() == 0) {
-                            System.out.println("added" + read);
-                            stack.push(read);
-
-                            //checks if the top of the stack is a + or -
-                        } else if (stack.peek() == '+' || stack.peek() == '-') {
-
-                            output = output + stack.pop();
-                            stack.push(read);
-
-                            //pushes what's read if its not a + or -
-                        } else {
-                            stack.push(read);
-                        }
-
-                        //reads whether it is a * or /
-                    } else if (read == '*' || read == '/') {
-
-                        //checks if the stack is empty
-                        if (stack.size() == 0) {
-                            System.out.println("added" + read);
-                            stack.push(read);
-
-                            //checks if the top of the stack is a + or -
-                        } else if (stack.peek() == '+' || stack.peek() == '-') {
-
-                            System.out.println("added" + read);
-                            stack.push(read);
-
-                            //pops the current stack peek and adds whats read
-                        } else {
-                            output = output + stack.pop();
-                            stack.push(read);
-                        }
+                    //checks if the top of the stack is or /
+                    if (stack.peek() == '*' || stack.peek() == '/') {
+                        output = output + stack.pop();
+                        stack.push(read);
                     }
+                    //runs if top of stack is + or -
+                    else {
+
+
+                        stack.push(read);
+
+
+                    }
+
+
                 }
 
-                for (int c = 0; c > stack.size(); i++) {
-                    if (read == ')') {
-                        stack.pop();
-                    } else {
+
+                //runs when the operator is + or - but also not a parenthesis
+                else {
+
+
+                    while(!stack.isEmpty() && stack.peek() != '(') {
+
+
                         output = output + stack.pop();
 
+
                     }
+
+
+                    stack.push(read);
+
+
                 }
+
+
             }
-            //puts everything left in the stack into the output
-            for (int s = 0; s <= stack.size(); s++) {
-                if (stack.size() == 0) {
-                    break;
+            //runs only when a closed parenthesis is found
+            else {
+                //empties stack when stack isn't empty or open parenthesis isn't found
+                while (!stack.isEmpty() && stack.peek() != '(') {
+                    output = output + stack.pop();
                 }
-                System.out.println("popped" + stack.peek());
-                output = output + stack.pop();
+                //removes open parenthesis from stack
+                if (stack.peek() == '(') {
+                    stack.pop();
+                }
             }
         }
+        //empties stack
+        while (!stack.isEmpty()) {
+            output = output + stack.pop();
+        }
+
+
         //returns the output
         return output;
     }
 }
+
+
+
