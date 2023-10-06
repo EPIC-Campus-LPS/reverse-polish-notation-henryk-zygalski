@@ -1,39 +1,76 @@
 import java.util.Stack;
 
+/**
+ * PIP class provides methods for evaluating a postfix expression
+ *
+ * @author Cardin N, Connor B
+ * @version 1.0, 10/6/2023
+ * @see java.util.Stack
+ */
 public class PIP {
+
+    /**
+     * Evaluates the value of a postfix expression
+     *
+     * @param input postfix expression
+     * @return value of the postfix expression
+     */
     static String evaluatePostfix(String input) {
 
         //extracts the input as a string
         String string = input;
 
         //defines all of the variables & stack
-        int output = string.charAt(0);
         Stack<Integer> stack = new Stack<>();
 
+        int answer = 0;
         for (int i = 0; i < string.length(); i++) {
 
             //reads every character of the string
             char read = string.charAt(i);
 
             //adds every variable/digit to stack
-            if (Character.isLetterOrDigit(read)) {
+            if (Character.isLetterOrDigit(read) && read != ' ') {
 
-                stack.push(Integer.valueOf(read));
+                stack.push(Character.getNumericValue(read));
 
-            } else {
+            } else if (read != ' ' && read == '+') {
 
-                int answer = stack.pop() + stack.pop();
+                //adds what's read
+                answer = stack.pop() + stack.pop();
                 stack.push(answer);
-                a
+
+            } else if (read != ' ' && read == '-') {
+
+                //subtracts what's read
+                answer = -stack.pop() + stack.pop();
+                stack.push(answer);
+
+            } else if (read != ' ' && read == '*') {
+
+                //multiplies what's read
+                answer = stack.pop() * stack.pop();
+                stack.push(answer);
+
+            } else if (read != ' ' && read == '/') {
+
+                //divides what's read
+                answer = stack.pop() / stack.pop();
+                stack.push(answer);
 
             }
         }
 
-        output = output + stack.pop();
-
-        return String.valueOf(output);
+        //returns the final answer
+        return String.valueOf(answer);
     }
 
+    /**
+     * translates infix to postfix
+     *
+     * @param input infix expression
+     * @return returns expression in postfix from infix
+     */
     static String infixToPostfix(String input) {
 
         //extracts the input as a string
@@ -51,7 +88,7 @@ public class PIP {
             //adds every letter to the output as it goes along
             if (Character.isLetterOrDigit(read)) {
 
-                output = output + read;
+                output += read;
 
             }
 
@@ -71,7 +108,7 @@ public class PIP {
                     //checks if the top of the stack is * or /
                     if (stack.peek() == '*' || stack.peek() == '/') {
 
-                        output = output + stack.pop();
+                        output += stack.pop();
                         stack.push(read);
 
                     }
@@ -89,7 +126,7 @@ public class PIP {
 
                     while (!stack.isEmpty() && stack.peek() != '(') {
 
-                        output = output + stack.pop();
+                        output += stack.pop();
 
                     }
 
@@ -102,7 +139,7 @@ public class PIP {
 
                 while (!stack.isEmpty() && stack.peek() != '(') {
 
-                    output = output + stack.pop();
+                    output += stack.pop();
 
 
                 }
@@ -125,8 +162,7 @@ public class PIP {
                 stack.pop();
 
             }
-
-            output = output + stack.pop();
+            output += stack.pop();
 
         }
 
