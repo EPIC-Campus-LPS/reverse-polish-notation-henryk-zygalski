@@ -31,36 +31,54 @@ public class PIP {
             char read = string.charAt(i);
 
             //adds every variable/digit to stack
-            if (Character.isLetterOrDigit(read) && read != ' ') {
+            try {
+                if (Character.isLetterOrDigit(read) && read != ' ') {
 
-                stack.push(Character.getNumericValue(read));
+                    stack.push(Character.getNumericValue(read));
 
-            } else if (read != ' ' && read == '+') {
+                } else if (read != ' ' && read == '+') {
 
-                //adds what's read
-                answer = stack.pop() + stack.pop();
-                stack.push(answer);
+                    //adds what's read
+                    answer = stack.pop() + stack.pop();
+                    stack.push(answer);
 
-            } else if (read != ' ' && read == '-') {
+                } else if (read != ' ' && read == '-') {
 
-                //subtracts what's read
-                answer = -stack.pop() + stack.pop();
-                stack.push(answer);
+                    //subtracts what's read
+                    answer = -stack.pop() + stack.pop();
+                    stack.push(answer);
 
-            } else if (read != ' ' && read == '*') {
+                } else if (read != ' ' && read == '*') {
 
-                //multiplies what's read
-                answer = stack.pop() * stack.pop();
-                stack.push(answer);
+                    //multiplies what's read
+                    answer = stack.pop() * stack.pop();
+                    stack.push(answer);
 
-            } else if (read != ' ' && read == '/') {
+                } else if (read != ' ' && read == '/') {
 
-                //divides what's read
-                answer = stack.pop() / stack.pop();
-                stack.push(answer);
+                    //divides what's read
+                    answer = stack.pop() / stack.pop();
+                    stack.push(answer);
+
+                }
+            }
+
+            //if the code above doesn't work it throws an exception
+
+            catch (Exception e){
+
+                throw new IllegalArgumentException();
 
             }
         }
+
+        //checks if there's more than one thing in the stack (this is another base case for exceptions)
+
+        if (stack.size() > 1){
+
+            throw new IllegalArgumentException();
+
+    }
 
         //returns the final answer
         return String.valueOf(answer);
@@ -86,6 +104,35 @@ public class PIP {
             //reads every character of the string
             char read = string.charAt(i);
 
+            //initializes two variables
+            int openParenthesis = 0;
+            int closedParenthesis = 0;
+
+            //counts the amount of closed and open parenthesis
+            if (read == '('){
+
+                openParenthesis++;
+
+            } else if (read == ')'){
+
+                closedParenthesis++;
+
+            }
+
+        }
+
+        //checks if the amount of closed and open parenthesis are the same
+        if (closedParenthesis != openParenthesis){
+
+            throw new IllegalArgumentException();
+
+        }
+
+
+        for (int i = 0; i < string.length(); i++) {
+
+            //reads every character of the string
+            char read = string.charAt(i);
             //adds every letter to the output as it goes along
             if (Character.isLetterOrDigit(read)) {
 
@@ -167,7 +214,19 @@ public class PIP {
 
         }
 
-        //returns the output
+        //uses other method to check if valid
+
+        try {
+
+            evaluatePostfix(output);
+
+        } catch (Exception e){
+
+            throw new IllegalArgumentException();
+
+        }
+
+        //returns the output if valid expression
         return output;
     }
 }
