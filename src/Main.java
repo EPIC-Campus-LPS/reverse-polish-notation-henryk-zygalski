@@ -7,8 +7,9 @@
 public class Main {
     public static void main(String[] args) {
 
-        //System.out.println(PIP.evaluatePostfix("7 2 + 9 / 3 5 *"));
-        System.out.println(PIP.infixToPostfix("a + b * c + ( d * e + f) * g "));
+        System.out.println(PIP.evaluatePostfix("5 1 2 / 4 * + 3 - "));
+        //System.out.println(PIP.infixToPostfix("a + b * c +( d * e + f) * g"));
+
     }
 
 }

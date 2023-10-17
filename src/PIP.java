@@ -22,9 +22,9 @@ public class PIP {
         String string = input;
 
         //defines all of the variables & stack
-        Stack<Integer> stack = new Stack<>();
+        Stack<Double> stack = new Stack<>();
 
-        int answer = 0;
+        double answer = 0;
         for (int i = 0; i < string.length(); i++) {
 
             //reads every character of the string
@@ -32,39 +32,52 @@ public class PIP {
 
             //adds every variable/digit to stack
             try {
+
                 if (Character.isLetterOrDigit(read) && read != ' ') {
 
-                    stack.push(Character.getNumericValue(read));
+                    stack.push(Double.valueOf(Character.getNumericValue(read)));
 
-                } else if (read != ' ' && read == '+') {
+                }
 
-                    //adds what's read
-                    answer = stack.pop() + stack.pop();
-                    stack.push(answer);
+                //checks if read is an operator
+                else if ((read == '+' || read == '-' || read == '/' || read == '*') || read == ' ') {
 
-                } else if (read != ' ' && read == '-') {
+                    if (read == '+') {
 
-                    //subtracts what's read
-                    answer = -stack.pop() + stack.pop();
-                    stack.push(answer);
+                        //adds what's read
+                        answer = stack.pop() + stack.pop();
+                        stack.push(answer);
 
-                } else if (read != ' ' && read == '*') {
+                    } else if (read == '-') {
 
-                    //multiplies what's read
-                    answer = stack.pop() * stack.pop();
-                    stack.push(answer);
+                        //subtracts what's read
+                        answer = -stack.pop() + stack.pop();
+                        stack.push(answer);
 
-                } else if (read != ' ' && read == '/') {
+                    } else if (read == '*') {
 
-                    //divides what's read
-                    answer = stack.pop() / stack.pop();
-                    stack.push(answer);
+                        //multiplies what's read
+                        answer = stack.pop() * stack.pop();
+                        stack.push(answer);
+
+                    } else if (read == '/') {
+
+                        //divides what's read
+                        double temp = stack.pop();
+                        answer = stack.pop() / temp;
+                        stack.push(answer);
+
+                    }
+
+                } else {
+
+                    //if the code doesn't find an operator nor space it throws an exception
+                    throw new IllegalArgumentException();
 
                 }
             }
 
             //if the code above doesn't work it throws an exception
-
             catch (Exception e){
 
                 throw new IllegalArgumentException();
@@ -78,7 +91,7 @@ public class PIP {
 
             throw new IllegalArgumentException();
 
-    }
+        }
 
         //returns the final answer
         return String.valueOf(answer);
@@ -99,14 +112,14 @@ public class PIP {
         String output = "";
         Stack<Character> stack = new Stack<>();
 
+        //initializes two variables
+        int openParenthesis = 0;
+        int closedParenthesis = 0;
+
         for (int i = 0; i < string.length(); i++) {
 
             //reads every character of the string
             char read = string.charAt(i);
-
-            //initializes two variables
-            int openParenthesis = 0;
-            int closedParenthesis = 0;
 
             //counts the amount of closed and open parenthesis
             if (read == '('){
@@ -182,6 +195,7 @@ public class PIP {
                 }
 
             }
+
             //runs only when a closed parenthesis is found
             else if (read != ' ') {
 
